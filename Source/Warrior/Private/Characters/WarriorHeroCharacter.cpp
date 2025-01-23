@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "WarriorDebugHelper.h"
 #include "WarriorGameplayTags.h"
+#include "AbilitySystem/WarriorAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Component/Input/WarriorEnhancedInputComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -26,7 +27,7 @@ AWarriorHeroCharacter::AWarriorHeroCharacter()
 	CameraBoom->SetupAttachment(GetRootComponent());
 	CameraBoom->TargetArmLength = 200.f;
 	CameraBoom->SocketOffset = FVector(0.f, 55.f, 65.f);
-	CameraBoom->bUseAttachParentBound = true;
+	CameraBoom->bUsePawnControlRotation = true;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -40,6 +41,22 @@ AWarriorHeroCharacter::AWarriorHeroCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	// 行走减速
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+}
+
+void AWarriorHeroCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (WarriorAbilitySystemComponent && WarriorAttributeSet)
+	{
+		const FString ASCText = FString::Printf(
+			TEXT("Owner Actor:%sm AvatarActor:%s"),
+			*WarriorAbilitySystemComponent->GetOwnerActor()->GetActorLabel(),
+			*WarriorAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		
+		Debug::Print(TEXT("Ability sysstem component valid. ") + ASCText, FColor::Green);
+		Debug::Print(TEXT("AbilitySet valid. ") + ASCText, FColor::Green);
+	}
 }
 
 void AWarriorHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -62,8 +79,6 @@ void AWarriorHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 void AWarriorHeroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Debug::Print(TEXT("Working"));
 }
 
 void AWarriorHeroCharacter::Input_Move(const FInputActionValue& InputActionValue)
@@ -81,7 +96,6 @@ void AWarriorHeroCharacter::Input_Move(const FInputActionValue& InputActionValue
 	if (MovementVector.X != 0.f)
 	{
 		const FVector RightDirection = MovementRotation.RotateVector(FVector::RightVector);
-
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
 }
