@@ -12,6 +12,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Controller/WarriorHeroController.h"
 #include "DataAssets/Input/DataAsset_InputConfig.h"
+#include "DataAssets/StartUpData/DataAsset_HeroStartUpData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -47,6 +48,7 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	// 可以删掉的代码
 	if (WarriorAbilitySystemComponent && WarriorAttributeSet)
 	{
 		const FString ASCText = FString::Printf(
@@ -56,6 +58,14 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 		
 		Debug::Print(TEXT("Ability sysstem component valid. ") + ASCText, FColor::Green);
 		Debug::Print(TEXT("AbilitySet valid. ") + ASCText, FColor::Green);
+	}
+
+	if(!CharacterStartUpData.IsNull())
+	{
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(GetWarriorAbilitySystemComponent());
+		}
 	}
 }
 
