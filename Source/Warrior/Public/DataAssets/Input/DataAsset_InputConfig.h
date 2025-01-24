@@ -22,6 +22,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* InputAction;
+
+	bool IsValid() const
+	{
+		return InputTag.IsValid() && InputAction;	
+	}
 };
 
 /**
@@ -40,4 +45,8 @@ public:
 	TArray<FWarriorInputActionConfig> NativeInputActions;
 
 	UInputAction* FindNativeInputActionByTag(const FGameplayTag& InInputTag) const;
+
+	// 这个TitleProperty可以改数组要展示的主要内容
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty = "InputAction"))
+	TArray<FWarriorInputActionConfig> AbilityInputActions;
 };

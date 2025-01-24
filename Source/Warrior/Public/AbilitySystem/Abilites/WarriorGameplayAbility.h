@@ -6,6 +6,8 @@
 #include "Abilities/GameplayAbility.h"
 #include "WarriorGameplayAbility.generated.h"
 
+class UWarriorAbilitySystemComponent;
+class UPawnCombatComponent;
 // 激活策略
 UENUM(BlueprintType)
 enum class EWarriorAbilityActivationPolicy : uint8
@@ -31,6 +33,21 @@ protected:
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//~ End UGameplayAbility Interface
 
+	/**
+	 * 通过Actor信息获取Pawn战斗组件
+	 * @return 
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	UPawnCombatComponent* GetPawnCombatComponentFromActorInfo() const;
+
+	/**
+	 * 通过Actor信息获取ASC
+	 * @return ASC
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	UWarriorAbilitySystemComponent* GetWarriorAbilitySystemComponentFromActorInfo() const;
+	
+	// 能力激活策略
 	UPROPERTY(EditDefaultsOnly, Category = "WarriorAbility")
 	EWarriorAbilityActivationPolicy AbilityActivationPolicy = EWarriorAbilityActivationPolicy::OnTrigger;
 };
