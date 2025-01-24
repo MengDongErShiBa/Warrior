@@ -52,16 +52,16 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	// 可以删掉的代码
-	if (WarriorAbilitySystemComponent && WarriorAttributeSet)
-	{
-		const FString ASCText = FString::Printf(
-			TEXT("Owner Actor:%sm AvatarActor:%s"),
-			*WarriorAbilitySystemComponent->GetOwnerActor()->GetActorLabel(),
-			*WarriorAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		
-		Debug::Print(TEXT("Ability sysstem component valid. ") + ASCText, FColor::Green);
-		Debug::Print(TEXT("AbilitySet valid. ") + ASCText, FColor::Green);
-	}
+	// if (WarriorAbilitySystemComponent && WarriorAttributeSet)
+	// {
+	// 	const FString ASCText = FString::Printf(
+	// 		TEXT("Owner Actor:%sm AvatarActor:%s"),
+	// 		*WarriorAbilitySystemComponent->GetOwnerActor()->GetActorLabel(),
+	// 		*WarriorAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+	// 	
+	// 	Debug::Print(TEXT("Ability sysstem component valid. ") + ASCText, FColor::Green);
+	// 	Debug::Print(TEXT("AbilitySet valid. ") + ASCText, FColor::Green);
+	// }
 
 	if(!CharacterStartUpData.IsNull())
 	{
