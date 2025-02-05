@@ -31,7 +31,7 @@ AWarriorWeaponBase* UPawnCombatComponent::GetCharacterCarriedWeaponByTag(FGamepl
 	// 检查是否包含此标签
 	if (CharacterCarriedWeaponMap.Contains(InWeaponTagToGet))
 	{
-		// 常亮指针：地址不可改变，其中内容可变
+		// 常量指针：地址不可改变，其中内容可变
 		if (AWarriorWeaponBase* const* FoundWeapon = CharacterCarriedWeaponMap.Find(InWeaponTagToGet))
 		{
 			// 返回武器
