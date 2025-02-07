@@ -3,10 +3,34 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "WarriorStructTypes.generated.h"
 
+class UInputMappingContext;
+class UWarriorGameplayAbility;
 class UWarriorHeroLinkedAnimLayer;
 
+/**
+ * Hero能力
+ */
+USTRUCT(BlueprintType)
+struct FWarriorHeroAbilitySet
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
+	FGameplayTag InputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UWarriorGameplayAbility> AbilityToGrant;
+
+	bool IsValid() const;
+};
+
+
+/**
+ * 武器数据
+ */
 USTRUCT(BlueprintType)
 struct FWarriorHeroWeaponData
 {
@@ -14,4 +38,12 @@ struct FWarriorHeroWeaponData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UWarriorHeroLinkedAnimLayer> WeaponAnimLayerToLink;
+
+	// 输入
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputMappingContext* WeaponInputMappingContext;
+	
+	// 武器默认能力
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
+	TArray<FWarriorHeroAbilitySet> DefaultWeaponAbilities;
 };

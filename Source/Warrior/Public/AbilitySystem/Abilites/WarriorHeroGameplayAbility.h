@@ -22,21 +22,21 @@ public:
 	 * 通过ActorInfo获取英雄角色
 	 * @return 英雄角色
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Warrior|Ability")
 	AWarriorHeroCharacter* GetHeroCharacterFromActorInfo();
 
 	/**
 	 * 通过ActorInfo获取英雄控制器
 	 * @return 
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Warrior|Ability")
 	AWarriorHeroController* GetHeroControllerFromActionInfo();
 
 	/**
 	 * 通过ActorInfo获取英雄战斗组件
 	 * @return 
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Warrior|Ability")
 	UHeroCombatComponent* GetHeroCombatComponentFromActionInfo();
 
 private:
