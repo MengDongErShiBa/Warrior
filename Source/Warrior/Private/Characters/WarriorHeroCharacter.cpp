@@ -65,6 +65,7 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 
 	if(!CharacterStartUpData.IsNull())
 	{
+		// 因为游戏中Hero只有一个，所以直接使用同步加载
 		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
 		{
 			LoadedData->GiveToAbilitySystemComponent(GetWarriorAbilitySystemComponent());
