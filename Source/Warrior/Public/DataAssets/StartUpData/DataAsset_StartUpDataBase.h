@@ -6,6 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "DataAsset_StartUpDataBase.generated.h"
 
+class UGameplayEffect;
 class UWarriorAbilitySystemComponent;
 class UWarriorGameplayAbility;
 /**
@@ -28,6 +29,10 @@ protected:
 	// 需要触发的
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
 	TArray<TSubclassOf<UWarriorGameplayAbility>> ReactiveAbilities;
+
+	// 启动数据：游戏效果
+	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
+	TArray<TSubclassOf<UGameplayEffect>> StartUpGameplayEffects;
 
 	// 给予能力
 	void GrantAbilities(const TArray<TSubclassOf<UWarriorGameplayAbility>>& InAbilitiesToGive, UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1);
