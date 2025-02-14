@@ -6,10 +6,10 @@
 #include "WarriorDebugHelper.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 #include "AbilitySystem/Abilites/WarriorHeroGameplayAbility.h"
-#include "WarroprTypes/WarriorStructTypes.h"
+#include "WarriorTypes/WarriorStructTypes.h"
 
 void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive,
-	int32 ApplyLevel)
+                                                              int32 ApplyLevel)
 {
 	Super::GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
 

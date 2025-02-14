@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "WarroprTypes/WarriorEnumType.h"
+#include "WarriorTypes/WarriorStructTypes.h"
 #include "WarriorBlueprintFunctionLibrary.generated.h"
 
 class UPawnCombatComponent;
