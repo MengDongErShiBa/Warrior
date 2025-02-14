@@ -19,4 +19,15 @@ public:
 	// 获取Hero当前携带的武器
 	UFUNCTION(BlueprintCallable, Category = "Warrior|Combat")
 	AWarriorHeroWeapon* GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
+	/**
+	 * 命中Actor
+	 * @param HitActor 命中Actor
+	 */
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+
+	/**
+	 * 武器脱离命中目标
+	 * @param InteractedActor 
+	 */
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;
 };

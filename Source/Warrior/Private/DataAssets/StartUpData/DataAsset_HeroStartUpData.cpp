@@ -5,7 +5,7 @@
 
 #include "WarriorDebugHelper.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
-#include "AbilitySystem/Abilites/WarriorGameplayAbility.h"
+#include "AbilitySystem/Abilites/WarriorHeroGameplayAbility.h"
 #include "WarroprTypes/WarriorStructTypes.h"
 
 void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive,
@@ -20,8 +20,6 @@ void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySys
 		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);
-		const FString DebugStr = FString::Printf(TEXT("ADD TAG: %s, AbilityName: %s"), *AbilitySet.InputTag.ToString(), *AbilitySet.AbilityToGrant->GetName());
-		Debug::Print(DebugStr);
 		InASCToGive->GiveAbility(AbilitySpec);
 	}
 }

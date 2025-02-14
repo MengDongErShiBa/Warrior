@@ -8,6 +8,15 @@
 #include "PawnCombatComponent.generated.h"
 
 class AWarriorWeaponBase;
+
+UENUM(BlueprintType)
+enum class EToggleDamageType : uint8
+{
+	CurrentEquippedWeapon UMETA(DisplayName = "当前装备武器"),
+	LeftHand UMETA(DisplayName = "左手"),
+	RightHand UMETA(DisplayName = "右手")
+};
+
 /**
  * 
  */
@@ -17,6 +26,12 @@ class WARRIOR_API UPawnCombatComponent : public UPawnExtensionComponentBase
 	GENERATED_BODY()
 
 public:
+	/**
+	 * 当前正在装备的武器Tag
+	 */
+	UPROPERTY(BlueprintReadWrite, Category = "Warrior|Combat")
+	FGameplayTag CurrentEquippedWeaponTag;
+
 	/**
 	 * 注册武器
 	 * @param InWeaponTagToRegister 可注册的武器Tag
@@ -42,10 +57,29 @@ public:
 	AWarriorWeaponBase* GetCharacterCurrentEquippedWeapon() const;
 
 	/**
-	 * 当前正在装备的武器Tag
+	 * 触发武器碰撞
+	 * @param bShouldEnable 
+	 * @param ToggleDamage 
 	 */
-	UPROPERTY(BlueprintReadWrite, Category = "Warrior|Combat")
-	FGameplayTag CurrentEquippedWeaponTag;
+	UFUNCTION(BlueprintCallable, Category = "Warrior|Combat")
+	void ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
+
+	/**
+	 * 命中Actor
+	 * @param HitActor 命中Actor
+	 */
+	virtual void OnHitTargetActor(AActor* HitActor);
+
+	/**
+	 * 武器脱离命中目标
+	 * @param InteractedActor 
+	 */
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+
+protected:
+	// 重叠的Actor
+	UPROPERTY()
+	TArray<AActor*> OverlappedActors;
 private:
 	// 角色携带的武器
 	TMap<FGameplayTag, AWarriorWeaponBase*> CharacterCarriedWeaponMap;
