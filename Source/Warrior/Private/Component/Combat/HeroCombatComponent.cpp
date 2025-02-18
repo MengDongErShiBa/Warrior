@@ -44,9 +44,21 @@ void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
 		WarriorGameplayTags::Shared_Event_MeleeHit,
 		Data
 		);
+
+	// 发送HitPuase
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		WarriorGameplayTags::Player_Event_HitPause,
+		FGameplayEventData()
+		);
 }
 
 void UHeroCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
 {
-	
+	// 发送HitPuase
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		WarriorGameplayTags::Player_Event_HitPause,
+		FGameplayEventData()
+		);
 }
