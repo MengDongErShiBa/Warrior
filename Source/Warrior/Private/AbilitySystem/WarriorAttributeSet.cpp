@@ -4,7 +4,9 @@
 #include "AbilitySystem/WarriorAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
+#include "WarriorBlueprintFunctionLibrary.h"
 #include "WarriorDebugHelper.h"
+#include "WarriorGameplayTags.h"
 
 UWarriorAttributeSet::UWarriorAttributeSet()
 {
@@ -56,10 +58,11 @@ void UWarriorAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 
 		// TODO:: Notify the UI
 
-		// TODO::Handle Character Death
 		if (NewCurrentHealth == 0.f)
 		{
-			
+			// 这个目标化身，应该就是自身了，后面查一下。
+			// 目标添加一个死亡状态标签
+			UWarriorBlueprintFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Shared_Status_Dead);
 		}
 	}
 	
