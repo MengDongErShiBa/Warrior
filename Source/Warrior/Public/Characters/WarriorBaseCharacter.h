@@ -31,7 +31,7 @@ public:
 	//~ End IPawnCombatInterface
 
 	//~ Begin IPawnUIInterface
-	virtual UPawnUIComponent* GetPawnUIComponent() override;
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
 	//~ End IPawnUIInterface
 
 protected:
