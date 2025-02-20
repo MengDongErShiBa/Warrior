@@ -10,6 +10,7 @@
 #include "Camera/CameraComponent.h"
 #include "Component/Combat/HeroCombatComponent.h"
 #include "Component/Input/WarriorEnhancedInputComponent.h"
+#include "Component/UI/HeroUIComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Controller/WarriorHeroController.h"
 #include "DataAssets/Input/DataAsset_InputConfig.h"
@@ -44,12 +45,26 @@ AWarriorHeroCharacter::AWarriorHeroCharacter()
 	// 行走减速
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
+	// 战斗组件
 	HeroCombatComponent = CreateDefaultSubobject<UHeroCombatComponent>(TEXT("HeroCombatComponent"));
+
+	// UI
+	HeroUIComponent = CreateDefaultSubobject<UHeroUIComponent>(TEXT("HeroUIComponent"));
 }
 
 UPawnCombatComponent* AWarriorHeroCharacter::GetPawnCombatComponent() const
 {
 	return HeroCombatComponent;
+}
+
+UPawnUIComponent* AWarriorHeroCharacter::GetPawnUIComponent() const
+{
+	return HeroUIComponent;
+}
+
+UHeroUIComponent* AWarriorHeroCharacter::GetHeroUIComponent() const
+{
+	return HeroUIComponent;
 }
 
 void AWarriorHeroCharacter::PossessedBy(AController* NewController)
