@@ -67,3 +67,28 @@ void UWarriorAbilitySystemComponent::RemovedGrantedHeroWeaponAbilities(
 	// 清空此数组
 	InSpecHandlesToRemove.Empty();
 }
+
+bool UWarriorAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
+{
+	check(AbilityTagToActivate.IsValid());
+
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+	// 找所有匹配标签的Ability
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToActivate.GetSingleTagContainer(), FoundAbilitySpecs);
+
+	if (!FoundAbilitySpecs.IsEmpty())
+	{
+		const int32 RandomAbilityIndex = FMath::RandRange(0, FoundAbilitySpecs.Num() - 1);
+		FGameplayAbilitySpec* SpecToActivate = FoundAbilitySpecs[RandomAbilityIndex];
+
+		check(SpecToActivate);
+
+		// 能力没有激活
+		if (!SpecToActivate->IsActive())
+		{
+			return TryActivateAbility(SpecToActivate->Handle);
+		}
+	}
+
+	return false;
+}
