@@ -4,6 +4,7 @@
 #include "WarriorBlueprintFunctionLibrary.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GenericTeamAgentInterface.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 #include "Interfaces/PawnCombatInterface.h"
 #include "WarriorTypes/WarriorEnumType.h"
@@ -68,4 +69,19 @@ UPawnCombatComponent* UWarriorBlueprintFunctionLibrary::BP_GetPawnCombatComponen
 	OutValidType = CombatComponent ? EWarriorValidType::Valid : EWarriorValidType::InValid;
 
 	return CombatComponent;
+}
+
+bool UWarriorBlueprintFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+	check(QueryPawn && TargetPawn);
+
+	IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+	IGenericTeamAgentInterface* TargetTemAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+	if (QueryTeamAgent && TargetTemAgent)
+	{
+		return QueryTeamAgent->GetGenericTeamId() != TargetTemAgent->GetGenericTeamId();
+	}
+
+	return false;
 }

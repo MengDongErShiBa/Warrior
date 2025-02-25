@@ -3,6 +3,7 @@
 
 #include "Items/Weapons/WarriorWeaponBase.h"
 
+#include "WarriorBlueprintFunctionLibrary.h"
 #include "WarriorDebugHelper.h"
 #include "Components/BoxComponent.h"
 
@@ -31,12 +32,11 @@ void AWarriorWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlap
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwning != HitPawn)
+		// 检查是否为敌对方
+		if (UWarriorBlueprintFunctionLibrary::IsTargetPawnHostile(WeaponOwning, HitPawn))
 		{
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
-
-		// TODO: Implement hit check for enemy characters， 对敌方角色进行命中检查
 	}
 }
 
@@ -49,7 +49,8 @@ void AWarriorWeaponBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* Overlappe
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwning != HitPawn)
+		// 检查是否为敌对方
+		if (UWarriorBlueprintFunctionLibrary::IsTargetPawnHostile(WeaponOwning, HitPawn))
 		{
 			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
 		}

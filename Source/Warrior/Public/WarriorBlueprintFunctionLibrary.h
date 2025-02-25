@@ -69,4 +69,13 @@ public:
 	static UPawnCombatComponent* NativeGetPawnCombatComponentFromActor(AActor* InActor);
 	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary", meta = (DisplayName = "Get Pawn Combat Component From Actor",  ExpandEnumAsExecs = "OutValidType"))
 	static UPawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* InActor, EWarriorValidType& OutValidType);
+
+	/**
+	 * 目标是否为敌人
+	 * @param QueryPawn 查询Pawn
+	 * @param TargetPawn 目标Pawn
+	 * @return 
+	 */
+	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
+	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
 };
