@@ -40,6 +40,11 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	if (bIsValidBlock)
 	{
 		// 有效阻挡
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitActor,
+			WarriorGameplayTags::Player_Event_SuccessfulBlock,
+			EventData
+		);
 	}
 	else
 	{
