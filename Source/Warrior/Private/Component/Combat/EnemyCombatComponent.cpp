@@ -4,6 +4,7 @@
 #include "Component/Combat/EnemyCombatComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "WarriorBlueprintFunctionLibrary.h"
 #include "WarriorDebugHelper.h"
 #include "WarriorGameplayTags.h"
 
@@ -21,14 +22,15 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	// 是否有效阻挡
 	bool bIsValidBlock = false;
 
-	// 玩家正在阻挡
-	const bool bIsPlayerBlacking = false;
+	// 玩家是否正在阻挡
+	const bool bIsPlayerBlacking = UWarriorBlueprintFunctionLibrary::NativeDoesActorHaveTag(HitActor, WarriorGameplayTags::Player_Status_Blocking);
 	// 攻击是否为不可阻挡
 	const bool bIsMyAttackUnBlockAble = false;
 
 	if (bIsPlayerBlacking && !bIsMyAttackUnBlockAble)
 	{
 		// TODO: check if the block is valid
+		bIsValidBlock = UWarriorBlueprintFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 
 	FGameplayEventData EventData;
