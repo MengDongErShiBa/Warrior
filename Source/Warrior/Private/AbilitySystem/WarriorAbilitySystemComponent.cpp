@@ -18,8 +18,24 @@ void UWarriorAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& I
 		// 精确匹配
 		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag)) continue;
 
-		// 激活Ability
-		TryActivateAbility(AbilitySpec.Handle);
+		// 如果是需要触发的，比如锁敌
+		if (InInputTag.MatchesTag(WarriorGameplayTags::InputTag_Toggleable))
+		{
+			if (AbilitySpec.IsActive())
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
+			else
+			{
+				// 激活Ability
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}
+		else
+		{
+			// 激活Ability
+			TryActivateAbility(AbilitySpec.Handle);
+		}
 	}
 }
 
