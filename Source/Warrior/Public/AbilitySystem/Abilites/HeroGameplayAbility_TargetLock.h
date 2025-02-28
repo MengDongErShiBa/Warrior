@@ -6,6 +6,7 @@
 #include "AbilitySystem/Abilites/WarriorHeroGameplayAbility.h"
 #include "HeroGameplayAbility_TargetLock.generated.h"
 
+class UWarriorWidgetBase;
 /**
  * 
  */
@@ -31,6 +32,28 @@ private:
 	 */
 	void GetAvailableActorsToLock();
 
+	/**
+	 * 获取距离最近的Actor
+	 * @param InAvailableActors 
+	 * @return 
+	 */
+	AActor* GetNearestTargetFromAvailableActors(const	TArray<AActor*>& InAvailableActors);
+
+	/**
+	 * 绘制锁敌UI
+	 */
+	void DrawTargetLockWidget();
+
+	/**
+	 * 取消锁定能力
+	 */
+	void CancelTargetLockAbility();
+
+	/**
+	 * 清理
+	 */
+	void CleanUp();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Trace Lock")
 	float TraceDistance = 5000.f;
 
@@ -42,7 +65,18 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	bool bShowPersistentDebugShape;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	TSubclassOf<UWarriorWidgetBase> TargetLockWidgetClass;
+
+	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
+	
+	UPROPERTY()
+	AActor* CurrentLockedActor;
+
+	UPROPERTY()
+	UWarriorWidgetBase* DrawTargetLockWidgetPtr;
 };
+
+
