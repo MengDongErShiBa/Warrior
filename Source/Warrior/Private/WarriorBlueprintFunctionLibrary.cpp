@@ -143,5 +143,5 @@ bool UWarriorBlueprintFunctionLibrary::IsValidBlock(AActor* InAttack, AActor* In
 
 	// const FString DebugString = FString::Printf(TEXT("Dot Result: %f %s"), DotResult, DotResult < -0.1 ? TEXT("Valid Block" : TEXT("InValid Block")));
 	// Debug::Print(DebugString,  DotResult < 0 ? FColor::Green : FColor::Red);
-	return DotResult < 0.1f;
+	return DotResult < -0.1f;
 }
