@@ -21,6 +21,13 @@ protected:
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	// ~ End UGameplayAbility Interface
 
+	/**
+	 * 通过AbilityTask实现Tick
+	 * @param DeltaTime 
+	 */
+	UFUNCTION(BlueprintCallable)
+	void OnTargetLockTick(float DeltaTime);
+
 private:
 	/**
 	 * 尝试锁定目标
@@ -37,12 +44,17 @@ private:
 	 * @param InAvailableActors 
 	 * @return 
 	 */
-	AActor* GetNearestTargetFromAvailableActors(const	TArray<AActor*>& InAvailableActors);
+	AActor* GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
 
 	/**
 	 * 绘制锁敌UI
 	 */
 	void DrawTargetLockWidget();
+
+	/**
+	 * 设置Widget位置
+	 */
+	void SetTargetLockWidgetPosition();
 
 	/**
 	 * 取消锁定能力
@@ -77,6 +89,9 @@ private:
 
 	UPROPERTY()
 	UWarriorWidgetBase* DrawTargetLockWidgetPtr;
+
+	UPROPERTY()
+	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
 };
 
 
