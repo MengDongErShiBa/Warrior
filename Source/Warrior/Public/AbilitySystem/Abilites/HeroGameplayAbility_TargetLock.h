@@ -81,6 +81,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	TSubclassOf<UWarriorWidgetBase> TargetLockWidgetClass;
 
+	// 目标锁定旋转插值速度  玩家
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	float TargetLockRotationInterpSpeed = 5.f;
+
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 	
