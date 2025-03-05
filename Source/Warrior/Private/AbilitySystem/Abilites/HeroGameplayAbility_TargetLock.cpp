@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Abilites/HeroGameplayAbility_TargetLock.h"
 
+#include "EnhancedInputSubsystems.h"
 #include "WarriorBlueprintFunctionLibrary.h"
 #include "WarriorDebugHelper.h"
 #include "WarriorGameplayTags.h"
@@ -23,6 +24,7 @@ void UHeroGameplayAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpec
 {
 	TryLockOnTarget();
 	InitTargetLockMovement();
+	InitTargetLockMappingContext();
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
@@ -31,6 +33,7 @@ void UHeroGameplayAbility_TargetLock::EndAbility(const FGameplayAbilitySpecHandl
 	bool bReplicateEndAbility, bool bWasCancelled)
 {
 	ResetTargetLockMovement();
+	ResetTargetLockMappingContext();
 	CleanUp();
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
@@ -191,6 +194,18 @@ void UHeroGameplayAbility_TargetLock::InitTargetLockMovement()
 	GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockMaxWalkSpeed;
 }
 
+void UHeroGameplayAbility_TargetLock::InitTargetLockMappingContext()
+{
+	const ULocalPlayer* LocalPlayer = GetHeroControllerFromActionInfo()->GetLocalPlayer();
+	// 通过LocalPlayer获取增强输入系统
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+
+	check(Subsystem);
+
+	// 默认输入的优先级是0，这里只要高于0就可以优先执行
+	Subsystem->AddMappingContext(TargetLockMappingContext, 3);
+}
+
 void UHeroGameplayAbility_TargetLock::CancelTargetLockAbility()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -221,4 +236,20 @@ void UHeroGameplayAbility_TargetLock::ResetTargetLockMovement()
 	{
 		GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
 	}
+}
+
+void UHeroGameplayAbility_TargetLock::ResetTargetLockMappingContext()
+{
+	if (!GetHeroCharacterFromActorInfo())
+	{
+		return;
+	}
+	const ULocalPlayer* LocalPlayer = GetHeroControllerFromActionInfo()->GetLocalPlayer();
+	// 通过LocalPlayer获取增强输入系统
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+
+	check(Subsystem);
+
+	// 默认输入的优先级是0，这里只要高于0就可以优先执行
+	Subsystem->RemoveMappingContext(TargetLockMappingContext);
 }

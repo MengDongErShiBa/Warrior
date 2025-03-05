@@ -6,6 +6,7 @@
 #include "AbilitySystem/Abilites/WarriorHeroGameplayAbility.h"
 #include "HeroGameplayAbility_TargetLock.generated.h"
 
+class UInputMappingContext;
 class UWarriorWidgetBase;
 /**
  * 
@@ -62,6 +63,11 @@ private:
 	void InitTargetLockMovement();
 
 	/**
+	 * 初始化锁敌输入上下文
+	 */
+	void InitTargetLockMappingContext();
+
+	/**
 	 * 取消锁定能力
 	 */
 	void CancelTargetLockAbility();
@@ -75,6 +81,11 @@ private:
 	 * 重置速度
 	 */
 	void ResetTargetLockMovement();
+
+	/**
+	 * 重置锁敌输入上下文
+	 */
+	void ResetTargetLockMappingContext();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Trace Lock")
 	float TraceDistance = 5000.f;
@@ -97,6 +108,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	float TargetLockMaxWalkSpeed = 150.f;
+
+	// 锁定目标输入上下文
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	UInputMappingContext* TargetLockMappingContext;
 
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
