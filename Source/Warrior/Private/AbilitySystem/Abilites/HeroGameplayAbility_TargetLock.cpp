@@ -14,6 +14,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Widget/WarriorWidgetBase.h"
 #include "Controller/WarriorHeroController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 void UHeroGameplayAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
@@ -21,6 +22,7 @@ void UHeroGameplayAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpec
                                                       const FGameplayEventData* TriggerEventData)
 {
 	TryLockOnTarget();
+	InitTargetLockMovement();
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
@@ -28,6 +30,7 @@ void UHeroGameplayAbility_TargetLock::EndAbility(const FGameplayAbilitySpecHandl
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
 	bool bReplicateEndAbility, bool bWasCancelled)
 {
+	ResetTargetLockMovement();
 	CleanUp();
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
@@ -181,6 +184,13 @@ void UHeroGameplayAbility_TargetLock::SetTargetLockWidgetPosition()
 	DrawTargetLockWidgetPtr->SetPositionInViewport(ScreenPosition, false);
 }
 
+void UHeroGameplayAbility_TargetLock::InitTargetLockMovement()
+{
+	CachedDefaultMaxWalkSpeed = GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
+
+	GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockMaxWalkSpeed;
+}
+
 void UHeroGameplayAbility_TargetLock::CancelTargetLockAbility()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -200,4 +210,15 @@ void UHeroGameplayAbility_TargetLock::CleanUp()
 	DrawTargetLockWidgetPtr = nullptr;
 
 	TargetLockWidgetSize = FVector2D::ZeroVector;
+
+	// 缓存速度重置
+	CachedDefaultMaxWalkSpeed = 0.f;
+}
+
+void UHeroGameplayAbility_TargetLock::ResetTargetLockMovement()
+{
+	if (CachedDefaultMaxWalkSpeed > 0.f)
+	{
+		GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
+	}
 }

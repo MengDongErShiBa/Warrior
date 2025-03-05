@@ -57,6 +57,11 @@ private:
 	void SetTargetLockWidgetPosition();
 
 	/**
+	 * 初始化锁定目标速度
+	 */
+	void InitTargetLockMovement();
+
+	/**
 	 * 取消锁定能力
 	 */
 	void CancelTargetLockAbility();
@@ -65,6 +70,11 @@ private:
 	 * 清理
 	 */
 	void CleanUp();
+
+	/**
+	 * 重置速度
+	 */
+	void ResetTargetLockMovement();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Trace Lock")
 	float TraceDistance = 5000.f;
@@ -85,6 +95,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	float TargetLockRotationInterpSpeed = 5.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	float TargetLockMaxWalkSpeed = 150.f;
+
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 	
@@ -96,6 +109,9 @@ private:
 
 	UPROPERTY()
 	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
+
+	UPROPERTY()
+	float CachedDefaultMaxWalkSpeed= 0.f;
 };
 
 
