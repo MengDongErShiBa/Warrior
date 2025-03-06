@@ -240,7 +240,7 @@ void UHeroGameplayAbility_TargetLock::ResetTargetLockMovement()
 
 void UHeroGameplayAbility_TargetLock::ResetTargetLockMappingContext()
 {
-	if (!GetHeroCharacterFromActorInfo())
+	if (!GetHeroControllerFromActionInfo())
 	{
 		return;
 	}
