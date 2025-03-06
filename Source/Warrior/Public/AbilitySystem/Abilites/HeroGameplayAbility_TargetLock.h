@@ -23,11 +23,18 @@ protected:
 	// ~ End UGameplayAbility Interface
 
 	/**
-	 * 通过AbilityTask实现Tick
+	 * 通过AbilityTask实现Tick，在蓝图中调用到这里
 	 * @param DeltaTime 
 	 */
 	UFUNCTION(BlueprintCallable)
 	void OnTargetLockTick(float DeltaTime);
+
+	/**
+	 * 切换目标
+	 * @param InSwitchDirectionTag 切换方向Tag
+	 */
+	UFUNCTION(BlueprintCallable)
+	void SwitchTarget(const FGameplayTag& InSwitchDirectionTag);
 
 private:
 	/**
@@ -46,6 +53,13 @@ private:
 	 * @return 
 	 */
 	AActor* GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
+
+	/**
+	 * 寻找目标左右两侧的Actor
+	 * @param OutActorsOnLeft 
+	 * @param OutActorsOnRight 
+	 */
+	void GetAvailableActorsAroundTarget(TArray<AActor*>& OutActorsOnLeft, TArray<AActor*>& OutActorsOnRight);
 
 	/**
 	 * 绘制锁敌UI

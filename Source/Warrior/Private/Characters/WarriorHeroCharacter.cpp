@@ -171,7 +171,7 @@ void AWarriorHeroCharacter::Input_SwitchTargetCompleted(const FInputActionValue&
 		Data
 	);
 
-	Debug::Print(TEXT("SwitchDirection: ") + SwitchDirection.ToString());
+	// Debug::Print(TEXT("SwitchDirection: ") + SwitchDirection.ToString());
 }
 
 void AWarriorHeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
