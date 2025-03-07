@@ -141,7 +141,16 @@ bool UWarriorBlueprintFunctionLibrary::IsValidBlock(AActor* InAttack, AActor* In
 	// 0~1之间，不应该有效
 	const float DotResult = FVector::DotProduct(InAttack->GetActorForwardVector(), InDefender->GetActorForwardVector());
 
-	// const FString DebugString = FString::Printf(TEXT("Dot Result: %f %s"), DotResult, DotResult < -0.1 ? TEXT("Valid Block" : TEXT("InValid Block")));
-	// Debug::Print(DebugString,  DotResult < 0 ? FColor::Green : FColor::Red);
 	return DotResult < -0.1f;
+}
+
+bool UWarriorBlueprintFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator,
+	AActor* InTargetActor, const FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UWarriorAbilitySystemComponent* SourceASC = NativeGetWarriorASCFromActor(InInstigator);
+	UWarriorAbilitySystemComponent* TargetASC = NativeGetWarriorASCFromActor(InTargetActor);
+
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = SourceASC->ApplyGameplayEffectSpecToTarget(*InSpecHandle.Data, TargetASC);
+	
+	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }

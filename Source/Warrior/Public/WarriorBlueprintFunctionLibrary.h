@@ -8,6 +8,7 @@
 #include "WarriorTypes/WarriorStructTypes.h"
 #include "WarriorBlueprintFunctionLibrary.generated.h"
 
+struct FGameplayEffectSpecHandle;
 class UPawnCombatComponent;
 struct FGameplayTag;
 class UWarriorAbilitySystemComponent;
@@ -82,9 +83,32 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary", meta = (CompactNodeTitle = "Get Value At Level"))
 	static float GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel = 1.f);
 
+	/**
+	 * 受击方向计算
+	 * @param InAttacker 攻击者 
+	 * @param InVictim 防御者
+	 * @param OutAngleDifference 输出方向 
+	 * @return 
+	 */
 	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
 
+	/**
+	 * 是否为有效阻挡
+	 * @param InAttack 攻击者 
+	 * @param InDefender 防御者
+	 * @return 
+	 */
 	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
 	static bool IsValidBlock(AActor* InAttack, AActor* InDefender);
+
+	/**
+	 * 将游戏效果规范句柄应用于目标演员
+	 * @param InInstigator 
+	 * @param InTargetActor 
+	 * @param InSpecHandle 
+	 * @return 
+	 */
+	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
 };
