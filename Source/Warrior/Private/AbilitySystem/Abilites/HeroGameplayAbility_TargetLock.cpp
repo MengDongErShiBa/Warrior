@@ -59,7 +59,9 @@ void UHeroGameplayAbility_TargetLock::OnTargetLockTick(float DeltaTime)
 	if (bShouldOverrideRotation)
 	{
 		// 计算朝向
-		const FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(GetHeroCharacterFromActorInfo()->GetActorLocation(), CurrentLockedActor->GetActorLocation());
+		FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(GetHeroCharacterFromActorInfo()->GetActorLocation(), CurrentLockedActor->GetActorLocation());
+
+		LookAtRot -= FRotator(TargetLockCameraOffsetDistance, 0.f, 0.f);
 
 		// 这里因为玩家Camera的朝向被控制器控制，因此可以这么做
 		const FRotator CurrentControlRot = GetHeroControllerFromActionInfo()->GetControlRotation();

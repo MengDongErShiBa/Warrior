@@ -127,6 +127,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	UInputMappingContext* TargetLockMappingContext;
 
+	/**
+	 * 锁敌相机偏移量
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	float TargetLockCameraOffsetDistance = 20.f;
+	
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
 	
