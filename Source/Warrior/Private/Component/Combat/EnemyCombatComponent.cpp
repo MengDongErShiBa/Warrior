@@ -25,7 +25,7 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	// 玩家是否正在阻挡
 	const bool bIsPlayerBlacking = UWarriorBlueprintFunctionLibrary::NativeDoesActorHaveTag(HitActor, WarriorGameplayTags::Player_Status_Blocking);
 	// 攻击是否为不可阻挡
-	const bool bIsMyAttackUnBlockAble = false;
+	const bool bIsMyAttackUnBlockAble = UWarriorBlueprintFunctionLibrary::NativeDoesActorHaveTag(GetOwningPawn(), WarriorGameplayTags::Enemy_Status_Unbloackable);
 
 	if (bIsPlayerBlacking && !bIsMyAttackUnBlockAble)
 	{
