@@ -55,5 +55,4 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 			EventData
 		);
 	}
-	
 }

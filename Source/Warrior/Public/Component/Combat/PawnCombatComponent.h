@@ -80,7 +80,21 @@ protected:
 	// 重叠的Actor
 	UPROPERTY()
 	TArray<AActor*> OverlappedActors;
+
+	/**
+	 * 触发当前装备的武器碰撞
+	 * @param bShouldEnable 
+	 */
+	virtual void ToggleCurrentEquippedWeaponCollision(bool bShouldEnable);
+
+	/**
+	 * 触发身体碰撞盒子
+	 * @param bShouldEnable 
+	 * @param ToggleDamageType 
+	 */
+	virtual void ToggleBodyCollisionBoxCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType);
 private:
 	// 角色携带的武器
 	TMap<FGameplayTag, AWarriorWeaponBase*> CharacterCarriedWeaponMap;
 };
+
