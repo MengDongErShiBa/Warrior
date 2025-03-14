@@ -94,7 +94,7 @@ void AWarriorAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus S
 	{
 		if (!BlackboardComponent->GetValueAsObject(FName("TargetActor")))
 		{
-			if (Stimulus.WasSuccessfullySensed() && Actor)
+			if (Stimulus.WasSuccessfullySensed() && Actor && GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
 			{
 				BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
 			}
