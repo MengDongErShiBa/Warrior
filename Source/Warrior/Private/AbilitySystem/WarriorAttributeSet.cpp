@@ -55,6 +55,22 @@ void UWarriorAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 
 		SetCurrentRage(NewCurrentRage);
 
+		if (GetCurrentRage() == GetMaxRage())
+		{
+			// 添加怒气满的状态
+			UWarriorBlueprintFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Player_Status_Rage_Full);
+		}
+		else if (GetCurrentRage() == 0.f)
+		{
+			// 添加怒气为空的状态
+			UWarriorBlueprintFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Player_Status_Rage_None);
+		}
+		else
+		{
+			UWarriorBlueprintFunctionLibrary::RemoveGameplayTagFromActorIfFound(Data.Target.GetAvatarActor(), WarriorGameplayTags::Player_Status_Rage_Full);
+			UWarriorBlueprintFunctionLibrary::RemoveGameplayTagFromActorIfFound(Data.Target.GetAvatarActor(), WarriorGameplayTags::Player_Status_Rage_None);
+		}
+
 		if (UHeroUIComponent* HeroUIComponent = CachedPawnUIInterface->GetHeroUIComponent())
 		{
 			// 通知怒气变更
