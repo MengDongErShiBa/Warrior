@@ -103,6 +103,25 @@ void AWarriorProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, 
 void AWarriorProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	// 检查是否已经触发过
+	if (OverlappedActors.Contains(OtherActor))
+	{
+		return;
+	}
+	
+	OverlappedActors.AddUnique(OtherActor);
+
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		FGameplayEventData Data;
+		Data.Instigator = this;
+		Data.Target = HitPawn;
+		
+		if (UWarriorBlueprintFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
+		{
+			HandleApplyProjectileDamage(HitPawn, Data);
+		}
+	}
 }
 
 void AWarriorProjectileBase::HandleApplyProjectileDamage(APawn* InHitPawn, const FGameplayEventData& InPayload)
