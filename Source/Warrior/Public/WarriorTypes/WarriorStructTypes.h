@@ -28,6 +28,19 @@ struct FWarriorHeroAbilitySet
 	bool IsValid() const;
 };
 
+USTRUCT(BlueprintType)
+struct FWarriorHeroSpecialAbilitySet : public FWarriorHeroAbilitySet
+{
+	GENERATED_BODY()
+
+	// 图标？
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftClassPtr<UMaterialInterface> AbilityIconMaterial;
+
+	// 冷却标签
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  meta = (Categories = "Player.Cooldown"))
+	FGameplayTag AbilityCooldownTag;
+};
 
 /**
  * 武器数据
@@ -47,6 +60,9 @@ struct FWarriorHeroWeaponData
 	// 武器默认能力
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
 	TArray<FWarriorHeroAbilitySet> DefaultWeaponAbilities;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
+	TArray<FWarriorHeroSpecialAbilitySet> SpecialWeaponAbilities;
 
 	/**
 	 * 曲线
