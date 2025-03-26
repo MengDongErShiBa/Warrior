@@ -10,6 +10,7 @@
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 #include "Interfaces/PawnCombatInterface.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "WarriorTypes/WarriorCountDownAction.h"
 #include "WarriorTypes/WarriorEnumType.h"
 
 UWarriorAbilitySystemComponent* UWarriorBlueprintFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
@@ -159,5 +160,43 @@ void UWarriorBlueprintFunctionLibrary::CountDown(const UObject* WorldContextObje
 	float UpdateInterval, float& OutRemainingTime, EWarriorCountDownActionInput CountDownInput,
 	UPARAM(DisplayName = "Output") EWarriorCountDownActionOutPut& CountDownOutPut, FLatentActionInfo LatentInfo)
 {
+	UWorld* World = nullptr;
 	
+	if (GEngine)
+	{
+		// 从一个Object中查找World，后面Mode指定为返回空和输出日志
+		World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+		// 自己常用的是这个
+		// World = WorldContextObject->GetWorld();
+	}
+
+	if (!World)
+	{
+		return;
+	}
+
+	FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+
+	FWarriorCountDownAction* FoundAction = LatentActionManager.FindExistingAction<FWarriorCountDownAction>(LatentInfo.CallbackTarget, LatentInfo.UUID);
+
+	if (CountDownInput == EWarriorCountDownActionInput::Start)
+	{
+		if (!FoundAction)
+		{
+			LatentActionManager.AddNewAction(
+				LatentInfo.CallbackTarget,
+				LatentInfo.UUID,
+				new FWarriorCountDownAction(TotalTime, UpdateInterval, OutRemainingTime, CountDownOutPut, LatentInfo)
+			);
+		}
+	}
+
+	if (CountDownInput == EWarriorCountDownActionInput::Cancel)
+	{
+		if (FoundAction)
+		{
+			// 取消Action
+			FoundAction->CancelAction();
+		}
+	}
 }

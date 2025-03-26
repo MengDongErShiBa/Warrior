@@ -11,9 +11,9 @@
 class FWarriorCountDownAction : public FPendingLatentAction
 {
 public:
-	FWarriorCountDownAction(float InTotalCountTime, float InUpdateInterval, float& InOutRemainingTime, EWarriorCountDownActionOutPut& InCountDownOutput, const FLatentActionInfo& LatentActionInfo)
+	FWarriorCountDownAction(float InTotalCountDownTime, float InUpdateInterval, float& InOutRemainingTime, EWarriorCountDownActionOutPut& InCountDownOutput, const FLatentActionInfo& LatentActionInfo)
 	: bNeedToCancel(false)
-	, TotalCountDownTime(InTotalCountTime)
+	, TotalCountDownTime(InTotalCountDownTime)
 	, UpdateInterval(InUpdateInterval)
 	, OutRemainingTime(InOutRemainingTime)
 	, CountDownOutput(InCountDownOutput)
@@ -25,10 +25,17 @@ public:
 	{
 		
 	}
+
+	// 重写此函数实现自己的逻辑
+	virtual void UpdateOperation(FLatentResponse& Response) override;
+	
+	void CancelAction();
 	
 private:
 	bool bNeedToCancel;
+	// 冷却时长
 	float TotalCountDownTime;
+	// 刷新间隔
 	float UpdateInterval;
 	float& OutRemainingTime;
 	EWarriorCountDownActionOutPut& CountDownOutput;
