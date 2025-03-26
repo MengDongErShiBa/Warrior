@@ -154,3 +154,10 @@ bool UWarriorBlueprintFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActo
 	
 	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
+
+void UWarriorBlueprintFunctionLibrary::CountDown(const UObject* WorldContextObject, float TotalTime,
+	float UpdateInterval, float& OutRemainingTime, EWarriorCountDownActionInput CountDownInput,
+	UPARAM(DisplayName = "Output") EWarriorCountDownActionOutPut& CountDownOutPut, FLatentActionInfo LatentInfo)
+{
+	
+}
