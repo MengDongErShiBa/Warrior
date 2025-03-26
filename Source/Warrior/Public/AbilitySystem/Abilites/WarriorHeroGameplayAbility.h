@@ -50,6 +50,15 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Warrior|Ability")
 	FGameplayEffectSpecHandle MakeHeroDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount);
 
+	/**
+	 * 获取技能剩余冷却时间
+	 * @param InCooldownTag 
+	 * @param TotalCooldownTime 
+	 * @param RemainingCooldownTime 
+	 * @return 是否处于冷却中
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Warrior|Ability")
+	bool GetAbilityRemainingCooldownByTag(FGameplayTag InCooldownTag, float& TotalCooldownTime, float& RemainingCooldownTime);
 private:
 	// WeakObjectPtr,弱指针，不会增加持有对象的引用计数
 	// 缓存英雄角色
