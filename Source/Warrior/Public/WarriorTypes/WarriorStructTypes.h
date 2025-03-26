@@ -35,7 +35,7 @@ struct FWarriorHeroSpecialAbilitySet : public FWarriorHeroAbilitySet
 
 	// 图标？
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSoftClassPtr<UMaterialInterface> AbilityIconMaterial;
+	TSoftObjectPtr<UMaterialInterface> SoftAbilityIconMaterial;
 
 	// 冷却标签
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  meta = (Categories = "Player.Cooldown"))
