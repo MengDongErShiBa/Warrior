@@ -73,6 +73,9 @@ private:
 
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
+
+	// 拾取
+	void Input_PickUpStonesStarted(const FInputActionValue& InputActionValue);
 #pragma endregion 
 
 public:

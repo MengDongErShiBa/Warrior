@@ -29,6 +29,8 @@ namespace WarriorGameplayTags
 	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_SpecialWeaponAbility_Light);
 	// 特殊武器能力重攻击
 	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_SpecialWeaponAbility_Heavy);
+	// 拾取石头
+	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_PickUp_Stones);
 
 	/** Player Tags */
 
@@ -77,6 +79,8 @@ namespace WarriorGameplayTags
 	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_ActivateRage);
 	// AOE伤害
 	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_AOE);
+	// 拾取使用石头
+	WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_ConsumeStones);
 
 	// 状态
 	// 跳转终结技
