@@ -83,8 +83,8 @@ namespace WarriorGameplayTags
 	
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Ranged, "Enemy.Ability.Ranged");
-	
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_SummonEnemies, "Enemy.Ability.SummonEnemies");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_SpawnStone, "Enemy.Ability.SpawnStone");
 
 	// Event
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Event_SummonEnemies,  "Enemy.Event.SummonEnemies");
