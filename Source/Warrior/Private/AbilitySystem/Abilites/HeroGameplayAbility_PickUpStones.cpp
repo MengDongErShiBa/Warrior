@@ -12,6 +12,7 @@ void UHeroGameplayAbility_PickUpStones::ActivateAbility(const FGameplayAbilitySp
                                                         const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                                         const FGameplayEventData* TriggerEventData)
 {
+	// 通知UI打开输入提示
 	GetHeroUIComponentFromActionInfo()->OnStoneInteractedDelegate.Broadcast(true);
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
