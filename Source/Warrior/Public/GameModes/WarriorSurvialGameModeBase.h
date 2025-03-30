@@ -6,6 +6,10 @@
 #include "GameModes/WarriorGameModeBase.h"
 #include "WarriorSurvialGameModeBase.generated.h"
 
+class AWarriorEnemyCharacter;
+/**
+ * 游戏状态
+ */
 UENUM(Blueprintable)
 enum class EWarriorSurvialGameModeState : uint8
 {
@@ -15,6 +19,37 @@ enum class EWarriorSurvialGameModeState : uint8
 	WaveCompleted UMETA(DisplayName = "波次完成"),
 	AllWavesDone UMETA(DisplayName = "所有波次完成"),
 	PlayerDied UMETA(DisplayName = "玩家死亡")
+};
+
+/**
+ * 敌人生成信息
+ */
+USTRUCT(BlueprintType)
+struct  FWarriorEnemyWaveSpawnerInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	TSoftClassPtr<AWarriorEnemyCharacter> SoftEnemyClassToSpawn;
+	UPROPERTY(EditAnywhere)
+	int32 MinPerSpawnCount = 1;
+	UPROPERTY(EditAnywhere)
+	int32 MaxPerSpawnCount = 3;
+};
+
+USTRUCT(BlueprintType)
+struct FWarriorEnemyWaveSpawnerInfoTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	TArray<FWarriorEnemyWaveSpawnerInfo> EnemyWaveSpawnerDefinitions;
+
+	/**
+	 * 产生此波的敌人总数
+	 */
+	UPROPERTY(EditAnywhere)
+	int32 TotalEnemyToSpawnThisWave = 1;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSurvialGameModeStateChanged, EWarriorSurvialGameModeState, CurrentState);
@@ -33,10 +68,50 @@ protected:
 private:
 
 	void SetCurrentSurvialGameModeState(EWarriorSurvialGameModeState InModeState);
+	// 是否完成了所有波次
+	bool HasFinishedAllWaves() const;
 	
 	UPROPERTY()
 	EWarriorSurvialGameModeState CurrentSurvialGameModeState;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnSurvialGameModeStateChanged OnSurvialGameModeStateChanged;
+
+	/**
+	 * 生成信息表
+	 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	UDataTable* EnemyWaveSpawnerDataTable;
+
+	/**
+	 * 总波次
+	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	int32 TotalWavesToSpawn;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	int32 CurrentWaveCount = 1;
+
+	/**
+	 * 已经流逝的时间
+	 */
+	UPROPERTY()
+	float TimePassedSinceStart;
+
+	/**
+	 * 生成等待时长
+	 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float SpawnNewWaveWaitTime = 5.f;
+
+	/**
+	 * 生成延时等待时长
+	 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float SpawnEnemiesDelayTime = 2.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float WaveCompletedWaitTime = 5.f;
 };
+
+
