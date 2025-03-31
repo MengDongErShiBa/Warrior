@@ -100,6 +100,8 @@ void AWarriorSurvialGameModeBase::PreLoadNextWaveEnemies()
 	{
 		return;
 	}
+
+	PreLoadedEnemyClassMap.Empty();
 	
 	for(const FWarriorEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
 	{
@@ -114,7 +116,6 @@ void AWarriorSurvialGameModeBase::PreLoadNextWaveEnemies()
 					if (UClass* LoadedEnemyClass = SpawnerInfo.SoftEnemyClassToSpawn.Get())
 					{
 						PreLoadedEnemyClassMap.Emplace(SpawnerInfo.SoftEnemyClassToSpawn, LoadedEnemyClass);
-						Debug::Print(LoadedEnemyClass->GetName() + TEXT(" is Loaded"));
 					}
 				}
 			)
@@ -176,6 +177,8 @@ int32 AWarriorSurvialGameModeBase::TrySpawnWaveEnemies()
 
 			if (SpawnedEnemy)
 			{
+				SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &ThisClass::OnEnemyDestroyed);
+				
 				EnemiesSpawnedThisTime++;
 				TotalSpawnedEnemiesThisWaveCounter++;
 			}
@@ -190,7 +193,38 @@ int32 AWarriorSurvialGameModeBase::TrySpawnWaveEnemies()
 	return EnemiesSpawnedThisTime;
 }
 
+void AWarriorSurvialGameModeBase::OnEnemyDestroyed(AActor* DestroyedActor)
+{
+	CurrentSpawnedEnemiesCounter--;
+
+	if (ShouldKeepSpawnEnemies())
+	{
+		CurrentSpawnedEnemiesCounter += TrySpawnWaveEnemies();
+	}
+	else if (CurrentSpawnedEnemiesCounter == 0)
+	{
+		// 如果已经生成完毕重置所有计数
+		TotalSpawnedEnemiesThisWaveCounter = 0;
+		CurrentSpawnedEnemiesCounter = 0;
+
+		// 波次完成
+		SetCurrentSurvialGameModeState(EWarriorSurvialGameModeState::WaveCompleted);
+	}
+}
+
 bool AWarriorSurvialGameModeBase::ShouldKeepSpawnEnemies() const
 {
-	return TotalSpawnedEnemiesThisWaveCounter >= GetCurrentWaveSpawnerTableRow()->TotalEnemyToSpawnThisWave;
+	return TotalSpawnedEnemiesThisWaveCounter < GetCurrentWaveSpawnerTableRow()->TotalEnemyToSpawnThisWave;
+}
+
+void AWarriorSurvialGameModeBase::RegisterSpawnedEnemies(const TArray<AWarriorEnemyCharacter*>& InEnemiesToRegister)
+{
+	for (AWarriorEnemyCharacter* SpawnedEnemy : InEnemiesToRegister)
+	{
+		if (SpawnedEnemy)
+		{
+			CurrentSpawnedEnemiesCounter++;
+			SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &ThisClass::OnEnemyDestroyed);
+		}
+	}
 }

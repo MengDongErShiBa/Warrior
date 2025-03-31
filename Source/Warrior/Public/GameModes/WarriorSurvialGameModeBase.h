@@ -76,6 +76,9 @@ private:
 	FWarriorEnemyWaveSpawnerInfoTableRow* GetCurrentWaveSpawnerTableRow() const;
 	// 尝试生成波次内的敌人
 	int32 TrySpawnWaveEnemies();
+	// 销毁
+	UFUNCTION()
+	void OnEnemyDestroyed(AActor* DestroyedActor);
 
 	/**
 	 * 是否支持继续生成敌人
@@ -128,7 +131,7 @@ private:
 	/**
 	 * 生成延时等待时长
 	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float SpawnEnemiesDelayTime = 2.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
@@ -136,6 +139,14 @@ private:
 
 	UPROPERTY()
 	TMap<TSoftClassPtr<AWarriorEnemyCharacter>, UClass*> PreLoadedEnemyClassMap;
+
+public:
+	/**
+	 * 注册生成的敌人，用在Boss的召唤技能
+	 * @param InEnemiesToRegister 
+	 */
+	UFUNCTION(BlueprintCallable)
+	void RegisterSpawnedEnemies(const TArray<AWarriorEnemyCharacter*>& InEnemiesToRegister);
 };
 
 
