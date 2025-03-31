@@ -70,6 +70,18 @@ private:
 	void SetCurrentSurvialGameModeState(EWarriorSurvialGameModeState InModeState);
 	// 是否完成了所有波次
 	bool HasFinishedAllWaves() const;
+	// 预加载下一波敌人
+	void PreLoadNextWaveEnemies();
+	// 获取当前的数据行
+	FWarriorEnemyWaveSpawnerInfoTableRow* GetCurrentWaveSpawnerTableRow() const;
+	// 尝试生成波次内的敌人
+	int32 TrySpawnWaveEnemies();
+
+	/**
+	 * 是否支持继续生成敌人
+	 * @return 
+	 */
+	bool ShouldKeepSpawnEnemies() const;
 	
 	UPROPERTY()
 	EWarriorSurvialGameModeState CurrentSurvialGameModeState;
@@ -92,11 +104,20 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	int32 CurrentWaveCount = 1;
 
+	UPROPERTY()
+	int32 CurrentSpawnedEnemiesCounter = 0;
+
+	UPROPERTY()
+	int32 TotalSpawnedEnemiesThisWaveCounter = 0;
+
+	UPROPERTY()
+	TArray<AActor*> TargetPointsArray;
+	
 	/**
 	 * 已经流逝的时间
 	 */
 	UPROPERTY()
-	float TimePassedSinceStart;
+	float TimePassedSinceStart = 0.f;
 
 	/**
 	 * 生成等待时长
@@ -112,6 +133,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+
+	UPROPERTY()
+	TMap<TSoftClassPtr<AWarriorEnemyCharacter>, UClass*> PreLoadedEnemyClassMap;
 };
 
 
