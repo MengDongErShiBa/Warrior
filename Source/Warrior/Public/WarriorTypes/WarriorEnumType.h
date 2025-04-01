@@ -38,3 +38,12 @@ enum class EWarriorCountDownActionOutPut : uint8
 	Completed,
 	Cancelled
 };
+
+UENUM(BlueprintType)
+enum class EWarriorGameDifficulty : uint8
+{
+	Easy UMETA(DisplayName = "简单"),
+	Normal UMETA(DisplayName = "普通"),
+	Hard UMETA(DisplayName = "困难"),
+	VeryHard UMETA(DisplayName = "地狱"),
+};

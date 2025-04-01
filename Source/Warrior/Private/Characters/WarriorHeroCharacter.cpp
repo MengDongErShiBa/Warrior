@@ -18,6 +18,7 @@
 #include "DataAssets/StartUpData/DataAsset_HeroStartUpData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameModes/WarriorSurvialGameModeBase.h"
 
 AWarriorHeroCharacter::AWarriorHeroCharacter()
 {
@@ -89,7 +90,30 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 		// 因为游戏中Hero只有一个，所以直接使用同步加载
 		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
 		{
-			LoadedData->GiveToAbilitySystemComponent(GetWarriorAbilitySystemComponent());
+			// 应用难度
+			int32 AbilityApplyLevel = 1;
+
+			if (AWarriorGameModeBase* BaseGameMode = GetWorld()->GetAuthGameMode<AWarriorSurvialGameModeBase>())
+			{
+				// 根据游戏难度应用不同的Ability系统等级
+				switch (BaseGameMode->GetCurrentGameDifficulty())
+				{
+					case EWarriorGameDifficulty::Easy:
+						AbilityApplyLevel = 4;
+						break;
+					case EWarriorGameDifficulty::Normal:
+						AbilityApplyLevel = 3;
+						break;
+					case EWarriorGameDifficulty::Hard:
+						AbilityApplyLevel = 2;
+						break;
+					case EWarriorGameDifficulty::VeryHard:
+						AbilityApplyLevel = 1;
+						break;
+				}
+			}
+			
+			LoadedData->GiveToAbilitySystemComponent(GetWarriorAbilitySystemComponent(), AbilityApplyLevel);
 		}
 	}
 }
