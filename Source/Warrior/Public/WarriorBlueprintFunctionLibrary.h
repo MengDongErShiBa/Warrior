@@ -9,6 +9,7 @@
 #include "WarriorTypes/WarriorStructTypes.h"
 #include "WarriorBlueprintFunctionLibrary.generated.h"
 
+class UWarriorGameInstance;
 struct FGameplayEffectSpecHandle;
 class UPawnCombatComponent;
 struct FGameplayTag;
@@ -117,4 +118,7 @@ public:
 	static void CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval,
 		float& OutRemainingTime, EWarriorCountDownActionInput CountDownInput,
 		UPARAM(DisplayName = "Output") EWarriorCountDownActionOutPut& CountDownOutPut, FLatentActionInfo LatentInfo);
+
+	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary", meta=(WorldContext = "WorldContextObject"))
+	static UWarriorGameInstance* GetWarriorGameInstance(const UObject* WorldContextObject);
 };

@@ -12,6 +12,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "WarriorTypes/WarriorCountDownAction.h"
 #include "WarriorTypes/WarriorEnumType.h"
+#include "WarriorGameInstance.h"
 
 UWarriorAbilitySystemComponent* UWarriorBlueprintFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
 {
@@ -199,4 +200,16 @@ void UWarriorBlueprintFunctionLibrary::CountDown(const UObject* WorldContextObje
 			FoundAction->CancelAction();
 		}
 	}
+}
+
+UWarriorGameInstance* UWarriorBlueprintFunctionLibrary::GetWarriorGameInstance(const UObject* WorldContextObject)
+{
+	if (GEngine)
+	{
+		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+		{
+			return World->GetGameInstance<UWarriorGameInstance>();
+		}
+	}
+	return nullptr;
 }
