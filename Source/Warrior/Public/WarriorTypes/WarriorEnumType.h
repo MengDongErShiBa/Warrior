@@ -47,3 +47,10 @@ enum class EWarriorGameDifficulty : uint8
 	Hard UMETA(DisplayName = "困难"),
 	VeryHard UMETA(DisplayName = "地狱"),
 };
+
+UENUM(BlueprintType)
+enum class EWarriorInputMode : uint8
+{
+	GameOnly,
+	UIOnly
+};
