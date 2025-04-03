@@ -4,11 +4,24 @@
 #include "GameModes/WarriorSurvialGameModeBase.h"
 
 #include "NavigationSystem.h"
+#include "WarriorBlueprintFunctionLibrary.h"
 #include "WarriorDebugHelper.h"
 #include "Characters/WarriorEnemyCharacter.h"
 #include "Engine/AssetManager.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+
+void AWarriorSurvialGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+
+	EWarriorGameDifficulty SavedGameDifficulty;
+
+	if (UWarriorBlueprintFunctionLibrary::TryLoadCurrentGameDifficulty(SavedGameDifficulty))
+	{
+		CurrentGameDifficulty = SavedGameDifficulty;
+	}
+}
 
 void AWarriorSurvialGameModeBase::BeginPlay()
 {

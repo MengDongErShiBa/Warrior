@@ -62,9 +62,13 @@ class WARRIOR_API AWarriorSurvialGameModeBase : public AWarriorGameModeBase
 {
 	GENERATED_BODY()
 protected:
+
+	// ~ Begin Game Mode
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	// ~ End Game Mode
+	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
-
 private:
 
 	void SetCurrentSurvialGameModeState(EWarriorSurvialGameModeState InModeState);

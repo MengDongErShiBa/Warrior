@@ -13,6 +13,8 @@
 #include "WarriorTypes/WarriorCountDownAction.h"
 #include "WarriorTypes/WarriorEnumType.h"
 #include "WarriorGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/WarriorSaveGame.h"
 
 UWarriorAbilitySystemComponent* UWarriorBlueprintFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
 {
@@ -248,4 +250,33 @@ void UWarriorBlueprintFunctionLibrary::ToggleInputMode(const UObject* WorldConte
 			break;
 	}
 	
+}
+
+void UWarriorBlueprintFunctionLibrary::SaveCurrentGameDifficulty(EWarriorGameDifficulty InDifficultyToSave)
+{
+	USaveGame* SaveGameObject = UGameplayStatics::CreateSaveGameObject(UWarriorSaveGame::StaticClass());
+
+	if (UWarriorSaveGame* WarriorSaveGame = Cast<UWarriorSaveGame>(SaveGameObject))
+	{
+		WarriorSaveGame->SaveCurrentDifficulty = InDifficultyToSave;
+
+		UGameplayStatics::SaveGameToSlot(WarriorSaveGame, WarriorGameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0);
+	}
+}
+
+bool UWarriorBlueprintFunctionLibrary::TryLoadCurrentGameDifficulty(EWarriorGameDifficulty& OutSaveDifficulty)
+{
+	if (UGameplayStatics::DoesSaveGameExist(WarriorGameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0 ))
+	{
+		if (USaveGame* SaveGameObject = UGameplayStatics::LoadGameFromSlot(WarriorGameplayTags::GameData_SaveGame_Slot_1.GetTag().ToString(), 0))
+		{
+			if (UWarriorSaveGame* WarriorSaveGame = Cast<UWarriorSaveGame>(SaveGameObject))
+			{
+				OutSaveDifficulty = WarriorSaveGame->SaveCurrentDifficulty;
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
