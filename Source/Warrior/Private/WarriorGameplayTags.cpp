@@ -43,10 +43,14 @@ namespace WarriorGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_SpecialWeaponAbility_Light, "Player.Ability.SpecialWeaponAbility.Light");
 	// 特殊武器能力重攻击
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_SpecialWeaponAbility_Heavy, "Player.Ability.SpecialWeaponAbility.Heavy");
+	// 蓄力风环
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_SpecialWeaponAbility_WindCyclone, "Player.Ability.SpecialWeaponAbility.WindCyclone");
+	// 拾取石头
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_PickUp_Stone, "Player.Ability.Pick.Stone");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_Light, "Player.Cooldown.SpecialWeaponAbility.Light");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_Heavy, "Player.Cooldown.SpecialWeaponAbility.Heavy");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Cooldown_SpecialWeaponAbility_WindCyclone, "Player.Cooldown.SpecialWeaponAbility.WindCyclone");
 	
 	// Weapon
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Axe, "Player.Weapon.Axe");
@@ -109,6 +113,8 @@ namespace WarriorGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Right, "Shared.Status.HitReact.Right");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Back, "Shared.Status.HitReact.Back");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Invincible, "Shared.Status.Invincible");
+
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Buff_WindMastery, "Shared.Buff.WindMastery");
 	
 	/** Game Data Tags */
 	UE_DEFINE_GAMEPLAY_TAG(GameData_Level_SurvivalGameModeMap, "GameData.Level.SurvivalGameModeMap");
